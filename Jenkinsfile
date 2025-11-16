@@ -18,19 +18,19 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                bat 'npm install'
             }
         }
 
         stage('Run Unit Tests') {
             steps {
-                sh 'npm test'
+                bat 'npm test'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh """
+                bat """
                 docker build -t ${REPO}:latest .
                 """
             }
@@ -39,7 +39,7 @@ pipeline {
         stage('Login to AWS ECR') {
             steps {
                 withAWS(region: "${AWS_REGION}", credentials: "aws-creds") {
-                    sh """
+                    bat """
                     aws ecr get-login-password --region ${AWS_REGION} \
                     | docker login --username AWS --password-stdin ${ECR_URL}
                     """
@@ -47,11 +47,11 @@ pipeline {
             }
         }
 
-        stage('Tag & Push Image to ECR') {
+        stage('Tag & Pubat Image to ECR') {
             steps {
-                sh """
+                bat """
                 docker tag ${REPO}:latest ${ECR_URL}:latest
-                docker push ${ECR_URL}:latest
+                docker pubat ${ECR_URL}:latest
                 """
             }
         }
@@ -59,7 +59,7 @@ pipeline {
         stage('Deploy on AWS ECS') {
             steps {
                 withAWS(region: "${AWS_REGION}", credentials: "aws-creds") {
-                    sh """
+                    bat """
                     aws ecs update-service \
                         --cluster myCluster \
                         --service myService \
