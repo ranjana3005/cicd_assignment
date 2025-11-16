@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_REGION = "us-east-1"
         REPO = "cicd-webapp"
-        AWS_ACCOUNT_ID = "YOUR_AWS_ACCOUNT_ID"
+        AWS_ACCOUNT_ID = "972775291931"
         ECR_URL = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO}"
     }
 
